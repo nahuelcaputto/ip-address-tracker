@@ -1,19 +1,55 @@
 import { useState } from "react";
-import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import InfoPanel from "./components/InfoPanel";
 import MapView from "./components/MapView";
+import Header from "./components/Header";
+
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+import { isValidIPv4, isValidIPv6 } from "./utils/ip";
+import { fetchIpData } from "./services/ipService";
 
 export default function App() {
   const [lat, setLat] = useState(51.505);
   const [lng, setLng] = useState(-0.09);
+  const [ip, setIp] = useState("");
+  const [isp, setIsp] = useState("");
+  const [location, setLocation] = useState({
+    city: "",
+    region: "",
+    country: "",
+    timezone: "",
+    lat: 0,
+    lng: 0,
+  });
+
+  const handleSearch = async (ip: string) => {
+    if (!isValidIPv4(ip) && !isValidIPv6(ip)) {
+      toast.error("Invalid IP address or domain");
+      return;
+    }
+    try {
+      const response = await fetchIpData(ip);
+      setIp(response.ip);
+      setIsp(response.isp);
+      setLocation(response.location);
+      setLat(response.location.lat);
+      setLng(response.location.lng);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch IP data");
+    }
+  };
 
   return (
-    <main className="relative flex-1 h-screen flex flex-col w-full">
+    <div className="flex flex-col h-screen w-full">
       <Header />
-      <SearchBar />
-      <InfoPanel />
+      <div className="absolute left-5 -top-5 w-full z-10">
+        <SearchBar handleSearch={handleSearch} />
+        <InfoPanel ip={ip} isp={isp} location={location} />
+      </div>
       <MapView lat={lat} lng={lng} />
-    </main>
+      <ToastContainer />
+    </div>
   );
 }
