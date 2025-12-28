@@ -4,9 +4,8 @@ const API_URL = "https://geo.ipify.org/api/v2/";
 
 export async function fetchIpData(ip?: string): Promise<IpData> {
   try {
-    const url = `${API_URL}country,city?apiKey=at_PmUw1djme8nLiAhdS42QTiqIKI878&ipAddress=${
-      ip || ""
-    }`;
+    const apiKey = import.meta.env.VITE_IPIFY_API_KEY;
+    const url = `${API_URL}country,city?apiKey=${apiKey}&ipAddress=${ip || ""}`;
 
     const res = await fetch(url);
 
