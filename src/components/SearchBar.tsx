@@ -12,12 +12,12 @@ export default function SearchBar({
   const [ip, setIp] = useState("");
 
   return (
-    <div className="absolute flex items-center top-28 left-1/2 -translate-x-1/2 w-[90%] max-w-xl z-10">
-      <div className="flex w-full max-w-[520px] overflow-hidden rounded-xl bg-white">
+    <div className="absolute flex items-center top-21 left-1/2 -translate-x-1/2 w-[90%] max-w-xl z-10">
+      <div className="flex w-full overflow-hidden rounded-xl bg-white">
         <input
           type="text"
           placeholder="Search for any IP address or domain"
-          className="flex-1 px-5 py-3 text-xs text-gray-900 placeholder:text-gray-400 outline-none"
+          className="flex-1 px-5 py-4 text-xs text-gray-900 placeholder:text-gray-400 outline-none"
           value={ip}
           onChange={(e) => setIp(e.target.value)}
           onKeyDown={(e) => {

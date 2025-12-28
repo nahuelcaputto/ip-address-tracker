@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { LatLngTuple } from "leaflet";
 import { useEffect } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface Props {
   lat: number;
@@ -16,13 +17,15 @@ function ChangeView({ center }: { center: LatLngTuple }) {
 }
 
 export default function MapView({ lat, lng }: Props) {
+  const isMobile = useIsMobile();
   return (
     <div className="flex-1 w-full z-0">
       <MapContainer
         center={[lat, lng] as LatLngTuple}
-        zoom={13}
+        zoom={isMobile ? 13 : 15}
         className="h-full w-full"
         style={{ height: "100%", width: "100%" }}
+        zoomControl={false}
       >
         <ChangeView center={[lat, lng]} />
         <TileLayer

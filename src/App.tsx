@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { isValidIPv4, isValidIPv6 } from "./utils/ip";
 import { fetchIpData } from "./services/ipService";
+import { useIsMobile } from "./hooks/useIsMobile";
 
 export default function App() {
   const [lat, setLat] = useState(51.505);
@@ -22,6 +23,7 @@ export default function App() {
     lat: 0,
     lng: 0,
   });
+  const isMobile = useIsMobile();
 
   const handleSearch = async (ip: string) => {
     if (!isValidIPv4(ip) && !isValidIPv6(ip)) {
@@ -44,12 +46,12 @@ export default function App() {
   return (
     <div className="flex flex-col h-screen w-full">
       <Header />
-      <div className="absolute left-5 -top-5 w-full z-10">
+      <div className="absolute w-full z-10">
         <SearchBar handleSearch={handleSearch} />
         <InfoPanel ip={ip} isp={isp} location={location} />
       </div>
       <MapView lat={lat} lng={lng} />
-      <ToastContainer />
+      <ToastContainer position={isMobile ? "top-center" : "bottom-center"} />
     </div>
   );
 }
