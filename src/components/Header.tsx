@@ -7,13 +7,13 @@ export default function Header(): JSX.Element {
   const isMobile = useIsMobile();
 
   return (
-    <header className="text-white py-6 text-center relative h-[35vh] sm:h-[33vh]">
+    <div className="text-white py-6 text-center relative h-[35vh] sm:h-[33vh]">
       <h1 className="text-2xl font-medium">IP Address Tracker</h1>
       <img
         src={isMobile ? mobilePattern : desktopPattern}
         alt="Header background pattern"
         className="w-full h-full absolute top-0 left-0 z-[-1] object-cover"
       />
-    </header>
+    </div>
   );
 }

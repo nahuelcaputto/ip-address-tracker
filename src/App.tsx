@@ -61,7 +61,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-full">
+    <main className="flex flex-col h-screen w-full">
       <Header />
       <div className="absolute w-full z-10">
         <SearchBar handleSearch={handleSearch} />
@@ -69,6 +69,6 @@ export default function App() {
       </div>
       <MapView lat={lat} lng={lng} />
       <ToastContainer position={isMobile ? "top-center" : "bottom-center"} />
-    </div>
+    </main>
   );
 }
