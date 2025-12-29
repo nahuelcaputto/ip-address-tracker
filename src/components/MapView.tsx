@@ -1,9 +1,10 @@
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import { LatLngTuple, divIcon } from "leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { LatLngTuple } from "leaflet";
 import { useEffect } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { Icon } from "./Icon";
+import iconPath from "../assets/icon-location.svg";
 
 interface Props {
   lat: number;
@@ -21,9 +22,8 @@ function ChangeView({ center }: { center: LatLngTuple }) {
 export default function MapView({ lat, lng }: Props) {
   const isMobile = useIsMobile();
 
-  const customMarkerIcon = divIcon({
-    html: renderToStaticMarkup(<Icon name="location" size={46} />),
-    className: "",
+  const customMarkerIcon = L.icon({
+    iconUrl: iconPath,
     iconSize: [46, 56],
     iconAnchor: [23, 56],
   });
