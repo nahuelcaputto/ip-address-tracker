@@ -1,7 +1,9 @@
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import { LatLngTuple } from "leaflet";
+import { LatLngTuple, divIcon } from "leaflet";
 import { useEffect } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { Icon } from "./Icon";
 
 interface Props {
   lat: number;
@@ -18,6 +20,14 @@ function ChangeView({ center }: { center: LatLngTuple }) {
 
 export default function MapView({ lat, lng }: Props) {
   const isMobile = useIsMobile();
+
+  const customMarkerIcon = divIcon({
+    html: renderToStaticMarkup(<Icon name="location" size={46} />),
+    className: "",
+    iconSize: [46, 56],
+    iconAnchor: [23, 56],
+  });
+
   return (
     <div className="flex-1 w-full z-0">
       <MapContainer
@@ -32,7 +42,7 @@ export default function MapView({ lat, lng }: Props) {
           attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[lat, lng]} />
+        <Marker position={[lat, lng]} icon={customMarkerIcon} />
       </MapContainer>
     </div>
   );

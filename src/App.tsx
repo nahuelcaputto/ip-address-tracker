@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "./components/SearchBar";
 import InfoPanel from "./components/InfoPanel";
 import MapView from "./components/MapView";
@@ -24,6 +24,23 @@ export default function App() {
     lng: 0,
   });
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const getInitialIp = async () => {
+      try {
+        const response = await fetchIpData();
+        setIp(response.ip);
+        setIsp(response.isp);
+        setLocation(response.location);
+        setLat(response.location.lat);
+        setLng(response.location.lng);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch initial IP data");
+      }
+    };
+    getInitialIp();
+  }, []);
 
   const handleSearch = async (ip: string) => {
     if (!isValidIPv4(ip) && !isValidIPv6(ip)) {
